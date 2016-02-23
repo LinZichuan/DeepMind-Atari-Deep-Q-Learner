@@ -7,7 +7,6 @@ end
 
 function cnnGameEnv:reward(minibatch_index)
 	--compute minibatch loss and compute reward	
-	ii
 end
 
 function cnnGameEnv:getActions()
