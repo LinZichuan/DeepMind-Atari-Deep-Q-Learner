@@ -5,6 +5,12 @@ function cnnGameEnv:__init(opt)
 	print('init gameenv')
 end
 
+function cnnGameEnv:loaddata()
+	local states = torch.load('/home/jie/lzc/save/epoch_state_1.dat') 
+	local classes = torch.load('/home/jie/lzc/save/epoch_state_1.dat') 
+	local losslist = torch.load('/home/jie/lzc/save/epoch_state_1.dat') 
+end
+
 function cnnGameEnv:reward(minibatch_index)
 	--compute minibatch loss and compute reward	
 end

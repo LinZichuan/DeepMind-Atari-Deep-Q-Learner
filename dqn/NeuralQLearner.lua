@@ -303,13 +303,13 @@ function nql:perceive(reward, rawstate, terminal, testing, testing_ep)
 	local curState
 
 	if self.max_reward then
-		reward = math.min(reward, self.max_reward)
+		reward = math.min(reward, self.max_reward) --limit max reward
 	end
 	if self.min_reward then
-		reward = math.max(reward, self.min_reward)
+		reward = math.max(reward, self.min_reward) --limit min reward
 	end
 	if self.rescale_r then
-		self.r_max = math.max(self.r_max, reward)
+		self.r_max = math.max(self.r_max, reward)  --rescale max reward
 	end
 
 	self.transitions:add_recent_state(state, terminal)
@@ -416,7 +416,7 @@ function nql:greedy(state)
 end
 
 
-function nql:createNetwork() --input: state, output: n_actions rewards
+function nql:createNetwork() --input: state, output: n_actions rewards (input state, then choose action whose reward is max.)
 	local n_hid = 128
 	local mlp = nn.Sequential()
 	mlp:add(nn.Reshape(self.hist_len*self.ncols*self.state_dim))

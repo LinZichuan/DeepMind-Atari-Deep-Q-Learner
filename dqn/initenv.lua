@@ -113,11 +113,11 @@ function setup(_opt)
     local opt = torchSetup(_opt)
 
     -- load training framework and environment
-    local framework = require(opt.framework)
+    local framework = require('alewrap')
     assert(framework)
 
-    --local gameEnv = framework.GameEnvironment(opt)
-	local gameEnv = cnnGameEnv()
+    local gameEnv = framework.GameEnvironment(opt)
+	--local gameEnv = cnnGameEnv()
     local gameActions = gameEnv:getActions()
 	--print ("gameActions are:")
 	--[[for k,v in ipairs(gameActions) do
@@ -141,7 +141,7 @@ function setup(_opt)
     if opt.verbose >= 1 then
         print('Set up Torch using these options:')
         for k, v in pairs(opt) do
-            print(k, v)
+            --print(k, v)
         end
     end
 
