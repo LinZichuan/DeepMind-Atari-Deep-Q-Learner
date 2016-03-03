@@ -78,7 +78,6 @@ local episode_reward
 local screen, reward, terminal = game_env:getState()
 print(#screen)
 print("screen:")
-print (screen)
 print("reward:")
 print (reward)
 print("terminal:")

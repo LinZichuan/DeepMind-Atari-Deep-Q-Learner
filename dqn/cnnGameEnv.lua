@@ -2,7 +2,17 @@
 local cnnGameEnv = torch.class('cnnGameEnv')
 
 function cnnGameEnv:__init(opt)
+	self.state = torch.Tensor() --TODO
+	--add a rouletee
+	self.rouletee = {nil,nil,nil,nil}
+	self.batchsize = 32
+	self.nSample = 64
 	print('init gameenv')
+	print('loading data...')
+	self.c = torch.Tensor(10)
+	for i=1,10 do
+		c[i] = torch.load('/home/jie/class2index/c'..i..'.dat')
+	end
 end
 
 function cnnGameEnv:loaddata()
@@ -41,7 +51,7 @@ end
 
 function cnnGameEnv:getActions()
 	local gameActions = {}
-	for i=0,2048 do
+	for i=0,10 do
 		gameActions[i+1] = i
 	end
 	return gameActions
@@ -51,12 +61,50 @@ function cnnGameEnv:nObsFeature()
 
 end
 
-function cnnGameEnv:getState()
-
+function cnnGameEnv:getState() --state is set in cnn.lua
+	--return state, reward, term
+	return self.state, 0, false
 end
 
 function cnnGameEnv:step(action, tof)
 	print('step')
+	--subtitue rouletee[4], add action
+	self.rouletee[4] = self.rouletee[3]
+	self.rouletee[3] = self.rouletee[2]
+	self.rouletee[2] = self.rouletee[1]
+	self.rouletee[1] = action
+	--select mini-batch according to actions
+	--actions number are classes number
+	local num = 0
+	for i=1,4 do
+		if (rouletee[i]) then
+			num = num + 1
+		end
+	end
+	local esize = self.batchsize / num
+	--get datapoints from /home/jie/class2index/c?.dat according to each_size
+	local res = {}
+	--sample self.batchsize-esize*(num-1) from class r[1]
+	local c1 = rouletee[1]
+	local r1size = self.batchsize-esize*(num-1)
+	local shuffle = torch.randperm(r1size)
+	for j=1,r1size do
+		res[#res+1] = self.c[c1][shuffle[j]]
+	end
+	--sample esize from class r[i]
+	for i=2,4 do
+		if (rouletee[i]) then
+			local c = rouletee[i]
+			local size = #self.c[c]:storage():size()
+			local shuffle = torch.randperm(size)
+			for j=1,size do
+				res[#res+1] = self.c[c][shuffle[j]]
+			end
+		end
+	end
+	local batch = torch.Tensor(res) --batch_indices to learn
+	--send batch to CNN to train, and receive loss, then compute reward!
+	--write CNN train interface
 end
 
 function cnnGameEnv:nextRandomGame()
