@@ -113,11 +113,11 @@ function setup(_opt)
     local opt = torchSetup(_opt)
 
     -- load training framework and environment
-    local framework = require('alewrap')
-    assert(framework)
+    --local framework = require('alewrap')
+    --assert(framework)
 
-    local gameEnv = framework.GameEnvironment(opt)
-	--local gameEnv = cnnGameEnv()
+    --local gameEnv = framework.GameEnvironment(opt)
+	local gameEnv = cnnGameEnv()
     local gameActions = gameEnv:getActions()
 	--print ("gameActions are:")
 	--[[for k,v in ipairs(gameActions) do

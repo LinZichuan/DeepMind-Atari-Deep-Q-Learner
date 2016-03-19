@@ -75,18 +75,16 @@ local nrewards
 local nepisodes
 local episode_reward
 
-local screen, reward, terminal = game_env:getState()
-print(#screen)
-print("screen:")
-print("reward:")
-print (reward)
+screen, reward, terminal = game_env:getState()
+print("reward:" .. reward)
 print("terminal:")
-print (terminal)
+print(terminal)
 
 print("Iteration ..", step)
 local win = nil
 while step < opt.steps do
     step = step + 1
+	print('--------------------------------------------------------')
     local action_index = agent:perceive(reward, screen, terminal)
 
     -- game over? get next game!

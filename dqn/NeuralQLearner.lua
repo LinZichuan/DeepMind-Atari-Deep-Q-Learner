@@ -297,9 +297,10 @@ function nql:compute_validation_statistics()
 end
 
 
-function nql:perceive(reward, rawstate, terminal, testing, testing_ep)
+function nql:perceive(reward, state, terminal, testing, testing_ep)
 	-- Preprocess state (will be set to nil if terminal)
-	local state = self:preprocess(rawstate):float()
+	--local state = self:preprocess(rawstate):float()
+	print ('perceive...')
 	local curState
 
 	if self.max_reward then
